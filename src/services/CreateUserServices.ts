@@ -5,20 +5,20 @@ import { hash } from 'bcryptjs';
 
 
 interface Request {
- name: string;
- email: string;
- password: string;   
+    name: string;
+    email: string;
+    password: string;
 }
 
 class CreateUserService {
-    public async execute({ name, email, password }:Request): Promise<User> {
+    public async execute({ name, email, password }: Request): Promise<User> {
         const usersRepository = getRepository(User);
 
-        const checkUserExists = await usersRepository.findOne({ 
+        const checkUserExists = await usersRepository.findOne({
             where: { email },
         });
-        
-        if(checkUserExists){
+
+        if (checkUserExists) {
             throw new Error('Email address alrdeady used.');
         }
 
@@ -28,10 +28,9 @@ class CreateUserService {
             password: hashedPassword,
             email,
         });
-        await  usersRepository.save(user);
+        await usersRepository.save(user);
 
         return user;
     }
 }
-
 export default CreateUserService;

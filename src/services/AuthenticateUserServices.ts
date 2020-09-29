@@ -1,4 +1,5 @@
 import User from '../models/User';
+import authConfig from '../config/auth'
 import { sign } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
@@ -30,9 +31,12 @@ class AthenticateUserService {
         if (!passwordMatch) {
             throw new Error('INCORRECT email or password combination. ')
         }
-        const token = sign({ }, '375ba0d18829a249d230ddf0dc0f190a',{
+
+        const {secret, expiresIn} = authConfig.jwt;
+
+        const token = sign({ }, secret,{
             subject: user.id,
-            expiresIn: '1d'
+            expiresIn: expiresIn,
         });
 
         return {

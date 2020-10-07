@@ -17,7 +17,7 @@ interface Response {
 
 class AthenticateUserService {
     
-    public  async execute({email, password}:Request) :Promise<Response>{
+    public  async execute({  email,  password }:Request) :Promise<Response>{
         const usersRepository = getRepository(User);
 
         const user = await usersRepository.findOne({ where: { email } });
@@ -36,7 +36,7 @@ class AthenticateUserService {
 
         const token = sign({ }, secret,{
             subject: user.id,
-            expiresIn: expiresIn,
+            expiresIn,
         });
 
         return {
